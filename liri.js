@@ -73,6 +73,10 @@ if (!userSearch) {
 
 // Then run a request with axios to the OMDB API with the movie specified
 axios.get(`http://www.omdbapi.com/?t=${userSearch}&y=&plot=short&apikey=${omdb}`)
+  .then(function(response) {
+    movieChoice = JSON.parse(response.data);
+    console.log(`\nMovie Title: ${movieChoice.Title} \nRelease Year: ${movieChoice.Year} \nIMDB Rating: ${movieChoice.imdbRating} \n${movieChoice.Ratings[1].Source}' Rating: ${movieChoice.Ratings[1].Value} \nProducing Countr(ies)y: ${movieChoice.Country} \nMovie Language(s): ${movieChoice.Language} \nMovie Plot: ${movieChoice.Plot} \nMovie Actors: ${movieChoice.Actors} \n \n ------------ End of Search ---------- `)
+  })
   .catch(function(error) {
     if (error.response) {
       // The request was made and the server responded with a status code
