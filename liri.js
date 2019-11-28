@@ -2,6 +2,7 @@
 
 // Load the NPM packages dotenv, inquirer, axios, request, spotify, moment  
 require('dotenv').config();
+const fs = require('fs')
 const inquirer = require('inquirer');
 const axios = require('axios'); 
 const moment = require('moment');
@@ -18,7 +19,7 @@ let command = process.argv[2];
 let userSearch = process.argv[3];
 
 // Create function returning these commands: concert-this, spotify-this-song, movie-this, do-what-it-says
-function action(command) { 
+function action(command,userSearch) { 
     // Apply a switch-case to apply the input to a command
     switch(command) { 
         case "spotify-this-song":
@@ -34,13 +35,14 @@ function action(command) {
         break; 
 
         case "do-what-it-says":
+        doWhatItSays(command, userSearch);
         break; 
 
         default:
         console.log("Please try again with a different input.")
     }
 }
-action(command);
+action(command,userSearch);
 
 // Write a Spotify function to apply in a switch-case 
 function spotifyThis() { 
@@ -139,3 +141,22 @@ axios.get(`https://rest.bandsintown.com/artists/${userSearch}/events?app_id=${ba
     console.log(error.config);
   });
 } 
+
+function doWhatItSays() { 
+  fs.readFile("random.txt", "utf8", function(error, data) {
+
+    // If the code experiences any errors it will log the error to the console.
+    if (error) {
+      return console.log(error);
+    }
+  
+    // Separate the command from userSearch
+    const dataArr = data.split(", ");
+  
+    // Include the separated strings in their respective variables
+    command = dataArr[0];
+    userSearch = dataArr[1];
+    
+    action(command, userSearch);
+  });
+}
