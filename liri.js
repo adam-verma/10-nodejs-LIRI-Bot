@@ -106,7 +106,17 @@ function concertThis() {
 axios.get(`https://rest.bandsintown.com/artists/${userSearch}/events?app_id=${bandsintown}`)
 .then(function(response) {
     bandChoice = response.data;
-   
+    if (response.status === 200) {
+      for (let i=0; i < bandChoice.length; i++) {
+        // Use Moment to change the response.data.datetime value into desired format
+        let venueDate = moment(bandChoice[i].datetime).format("MM/DD/YYYY");
+  
+        console.log(` \nArtist: ${bandChoice[i].lineup[0]} \nVenue Name: ${bandChoice[i].venue.name} \nVenue Location: ${bandChoice[i].venue.city}, ${bandChoice[i].venue.country} \nEvent Date: ${venueDate}`)
+      }
+    }
+    else { 
+      console.log('Please try again with another Artist/Band Name')
+    }
   })
   .catch(function(error) {
     if (error.response) {
