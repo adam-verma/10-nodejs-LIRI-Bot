@@ -57,7 +57,9 @@ spotify
     console.error('Error occurred: ' + err); 
     } else {
     let spotifyResult = data.tracks.items; 
-   
+    for (let i=0; i< spotifyResult.length; i++) {
+      console.log(`\nHere is the track we found: \nArtist: ${spotifyResult[i].album.artists[0].name} \nSong Name: ${spotifyResult[i].name} \nPreview on Spotify: ${spotifyResult[i].album.external_urls.spotify} \nAlbum Name: ${spotifyResult[i].album.name}`)
+    }    
     }
   });
 }
@@ -71,7 +73,6 @@ if (!userSearch) {
 
 // Then run a request with axios to the OMDB API with the movie specified
 axios.get(`http://www.omdbapi.com/?t=${userSearch}&y=&plot=short&apikey=${omdb}`)
-
   .catch(function(error) {
     if (error.response) {
       // The request was made and the server responded with a status code
