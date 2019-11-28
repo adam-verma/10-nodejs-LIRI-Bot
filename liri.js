@@ -10,55 +10,60 @@ let Spotify = require('node-spotify-api');
 // Set the API id/key from keys.js as variables
 let keys = require("./keys.js"); 
 let spotify = new Spotify(keys.spotify);
-let bandsintown = keys.bandsintown;
-let omdb = keys.omdb; 
+let bandsintown = keys.bandsintown.id;
+let omdb = keys.omdb.key; 
 
 // Create an argument line from user 
-let userInput = process.argv[2]; 
+let command = process.argv[2]; 
+let userSearch = process.argv[3];
 
 // Create function returning these commands: concert-this, spotify-this-song, movie-this, do-what-it-says
-function action(userInput) { 
+function action(command) { 
     // Apply a switch-case to apply the input to a command
-    switch(userInput) { 
+    switch(command) { 
         case "spotify-this-song":
         spotifyThis();
         break;
         
         case "concert-this": 
-        concertThis(); 
+        concertThis();
         break;
 
         case "movie-this": 
         movieThis(); 
         break; 
 
+        case "do-what-it-says":
+        break; 
+        
         default:
         console.log("Please try again with a different input.")
     }
 }
-action(userInput);
+action(command);
 
 // Write a Spotify function to apply in a switch-case 
 function spotifyThis() { 
+
 // This runs a request with node-spotify-api to URL with specified parameters
 spotify
-  .search({ type: 'track', query: userInput, limit: 1}
+  .search({ type: 'track', query: userSearch, limit: 1}
   , function (err, data) { 
     if (err) {
     console.error('Error occurred: ' + err); 
     } else {
-    console.log(data); 
+    let spotifyResult = data.tracks.items; 
+   
     }
-  })
+  });
 }
 
 // Write a OMDB function to apply in a switch-case 
 function movieThis() {
+
 // Then run a request with axios to the OMDB API with the movie specified
-axios.get(`http://www.omdbapi.com/?t=${userInput}&y=&plot=short&apikey=${omdb}`)
-.then(function(response) {
-    console.log("The movie's rating is: " + response.data.imdbRating);
-  })
+axios.get(`http://www.omdbapi.com/?t=${userSearch}&y=&plot=short&apikey=${omdb}`)
+
   .catch(function(error) {
     if (error.response) {
       // The request was made and the server responded with a status code
@@ -84,9 +89,10 @@ axios.get(`http://www.omdbapi.com/?t=${userInput}&y=&plot=short&apikey=${omdb}`)
 // Write a Bands in Town function to apply in a switch-case
 function concertThis() { 
 // Then run a request with axios to the Bands in Town API with the artist specified
-axios.get(`https://rest.bandsintown.com/artists/" + ${userInput} + "/events?app_id=${bandsintown}`)
+axios.get(`https://rest.bandsintown.com/artists/${userSearch}/events?app_id=${bandsintown}`)
 .then(function(response) {
-    console.log(response); 
+    bandChoice = response.data;
+   
   })
   .catch(function(error) {
     if (error.response) {
