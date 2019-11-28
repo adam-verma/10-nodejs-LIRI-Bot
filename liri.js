@@ -35,7 +35,7 @@ function action(command) {
 
         case "do-what-it-says":
         break; 
-        
+
         default:
         console.log("Please try again with a different input.")
     }
@@ -44,6 +44,10 @@ action(command);
 
 // Write a Spotify function to apply in a switch-case 
 function spotifyThis() { 
+// If there is nothing assigned to userSearch then it defaults to "The Sign - Ace of Base"
+if (!userSearch) {
+  userSearch = 'The Sign - Ace of Base'
+}
 
 // This runs a request with node-spotify-api to URL with specified parameters
 spotify
@@ -60,6 +64,10 @@ spotify
 
 // Write a OMDB function to apply in a switch-case 
 function movieThis() {
+// If there is nothing assigned to userSearch then it defaults to "Mr. Nobody"
+if (!userSearch) {
+    userSearch = "Mr. Nobody"
+  }
 
 // Then run a request with axios to the OMDB API with the movie specified
 axios.get(`http://www.omdbapi.com/?t=${userSearch}&y=&plot=short&apikey=${omdb}`)
@@ -88,6 +96,7 @@ axios.get(`http://www.omdbapi.com/?t=${userSearch}&y=&plot=short&apikey=${omdb}`
 
 // Write a Bands in Town function to apply in a switch-case
 function concertThis() { 
+
 // Then run a request with axios to the Bands in Town API with the artist specified
 axios.get(`https://rest.bandsintown.com/artists/${userSearch}/events?app_id=${bandsintown}`)
 .then(function(response) {
