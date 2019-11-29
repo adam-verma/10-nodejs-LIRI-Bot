@@ -149,9 +149,9 @@ function doWhatItSays() {
     if (error) {
       return console.log(error);
     }
-  
+    
     // Separate the command from userSearch
-    const dataArr = data.split(", ");
+    const dataArr = data.split(",");
   
     // Include the separated strings in their respective variables
     command = dataArr[0];
